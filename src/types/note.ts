@@ -1,4 +1,5 @@
 export interface Note {
+  mutate(objValue: { [k: string]: FormDataEntryValue }): unknown;
   id: string;
   title: string;
   content: string;
@@ -10,4 +11,10 @@ export interface Note {
 export interface FetchResponseHttp {
   notes: Note[];
   totalPages: number;
+}
+
+export interface NoteInput {
+  title: string;
+  content: string;
+  tag: string;
 }

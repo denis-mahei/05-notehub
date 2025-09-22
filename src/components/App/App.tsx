@@ -4,6 +4,8 @@ import { useDebouncedCallback } from 'use-debounce';
 import NoteList from '@/components/NoteList/NoteList';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
+import Modal from '@/components/Modal/Modal';
+import NoteForm from '@/components/NoteForm/NoteForm';
 
 import css from './App.module.css';
 
@@ -12,13 +14,20 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data } = useFetchNotes(searchQuery, currentPage);
+  const openModal = () => setIsOpen(true);
+
+  const closeModal = () => setIsOpen(false);
+
+  const { data, isSuccess } = useFetchNotes(searchQuery, currentPage);
+
   const totalPages = data?.totalPages ?? 0;
 
   const updateSearchQuery = useDebouncedCallback(
     (event) => setSearchQuery(event.target.value),
     300
   );
+
+
 
   return (
     <div className={css.app}>
@@ -31,7 +40,14 @@ const App = () => {
             setCurrentPage={setCurrentPage}
           />
         )}
-        <button className={css.button}>Create note +</button>
+        <button className={css.button} onClick={openModal}>
+          Create note +
+        </button>
+        {isOpen && (
+          <Modal onClose={closeModal}>
+            <NoteForm onClose={closeModal} onSuccess={isSuccess}/>
+          </Modal>
+        )}
       </header>
       {data?.notes && data.notes.length > 0 && <NoteList notes={data.notes} />}
     </div>

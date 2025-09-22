@@ -1,27 +1,25 @@
-import axios from 'axios';
-import type { FetchResponseHttp, Note } from '@/types/note';
-
-axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
-
-const api_token = import.meta.env.VITE_NOTEHUB_TOKEN;
+import type { FetchResponseHttp, Note, NoteInput } from '@/types/note';
+import { api } from './apiCreate';
 
 export const fetchNotes = async (
   query: string,
   pages: number
 ): Promise<FetchResponseHttp> => {
-  const res = await axios.get('/notes', {
+  const res = await api.get('/notes', {
     params: {
       search: query,
-      page: pages
-    },
-    headers: {
-      Authorization: `Bearer ${api_token}`,
+      page: pages,
     },
   });
   return res.data;
 };
 
-export const addNewNote = async (newNote: Note) => {
-  const res = await axios.post('/note', newNote);
-  return res.data.note;
+export const addNewNote = async (newNote: NoteInput): Promise<Note> => {
+  const res = await api.post('/notes', newNote);
+  return res.data.notes;
+};
+
+export const deleteNote = async (id: string): Promise<Note> => {
+  const res = await api.delete(`/notes/${id}`);
+  return res.data.notes;
 };
