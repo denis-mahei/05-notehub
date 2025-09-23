@@ -6,8 +6,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
-    "moduleResolution": "nodenext",
-    "noEmit": false,
+    "moduleResolution": "bundler",
+    "noEmit": true,
     "incremental": true,
     "composite": true,
     /* Linting */

@@ -5,7 +5,7 @@
     "lib": ["ES2021", "DOM"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "jsx": "react-jsx",
     "composite": true,
