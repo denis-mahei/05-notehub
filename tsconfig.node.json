@@ -6,7 +6,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "noEmit": false,
     "incremental": true,
     "composite": true,
