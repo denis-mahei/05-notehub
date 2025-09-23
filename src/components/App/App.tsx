@@ -6,6 +6,7 @@ import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
+import Loading from '@/components/Loading/Loading';
 
 import css from './App.module.css';
 
@@ -18,7 +19,10 @@ const App = () => {
 
   const closeModal = () => setIsOpen(false);
 
-  const { data, isSuccess } = useFetchNotes(searchQuery, currentPage);
+  const { data, isLoading, isError, isSuccess } = useFetchNotes(
+    searchQuery,
+    currentPage
+  );
 
   const totalPages = data?.totalPages ?? 0;
 
@@ -26,8 +30,6 @@ const App = () => {
     (event) => setSearchQuery(event.target.value),
     300
   );
-
-
 
   return (
     <div className={css.app}>
@@ -45,10 +47,12 @@ const App = () => {
         </button>
         {isOpen && (
           <Modal onClose={closeModal}>
-            <NoteForm onClose={closeModal} onSuccess={isSuccess}/>
+            <NoteForm onClose={closeModal} onSuccess={isSuccess} />
           </Modal>
         )}
       </header>
+      {isError && <p>Error loading notes</p>}
+      {isLoading && <Loading />}
       {data?.notes && data.notes.length > 0 && <NoteList notes={data.notes} />}
     </div>
   );
